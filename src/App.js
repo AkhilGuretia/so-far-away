@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const App = () => {
   return (
     <div className="app">
@@ -16,10 +18,43 @@ const Logo = () => {
 };
 
 const Form = () => {
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState(1);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const newItem = {
+      id: Date.now(),
+      quantity,
+      description,
+      packed: false
+    }
+
+    console.log(newItem);
+
+    setQuantity(1);
+    setDescription("")
+  }
+
   return (
-    <div className="add-form">
+    <form className="add-form" onSubmit={handleSubmit}>
       <h3>What do you need for your 😍 trip ?</h3>
-    </div>
+
+      <select
+        value={quantity}
+        onChange={(e) => setQuantity(Number(e.target.value))}
+      >
+        {Array.from({ length: 20 }, (_, i) => i + 1).map((i) => (
+          <option value={i} key={i}>{i}</option>
+        ))}
+      </select>
+
+      <input type="text" placeholder="Item..." value={description}
+        onChange={(e) => setDescription(e.target.value)} />
+
+      <button>Add</button>
+    </form>
   );
 };
 
