@@ -1,11 +1,16 @@
 import { useState } from "react";
 
+const initialItems = [
+  { id: 1, description: "Passports", quantity: 2, packed: false },
+  { id: 2, description: "Socks", quantity: 12, packed: false },
+];
+
 const App = () => {
   return (
     <div className="app">
       <Logo />
       <Form />
-      <List />
+      <PackagingList />
       <Stats />
     </div>
   );
@@ -58,13 +63,26 @@ const Form = () => {
   );
 };
 
-const List = () => {
+const PackagingList = () => {
   return (
     <div className="list">
-      List
+      <ul>
+        {initialItems.map((item) => (
+          <Item item={item} />
+        ))}
+      </ul>
     </div>
   );
 };
+
+const Item = ({ item }) => {
+  return (
+    <li key={item.id}>
+      <span> {item.quantity} {item.description}</span>
+      <button>❌</button>
+    </li>
+  );
+}
 
 const Stats = () => {
   return (
