@@ -5,14 +5,18 @@ const App = () => {
   const [items, setItems] = useState([]);
 
   const handleAddItem = (newItem) => {
-    setItems([...items, newItem]);
+    setItems((items) => [...items, newItem]);
+  }
+
+  const handleDeleteItem = (id) => {
+    setItems((items) => items.filter((item) => item.id !== id));
   }
 
   return (
     <div className="app">
       <Logo />
       <Form OnAddItem={handleAddItem} />
-      <PackagingList items={items} />
+      <PackagingList items={items} onDeleteItem={handleDeleteItem} />
       <Stats />
     </div>
   );
@@ -67,23 +71,23 @@ const Form = ({ OnAddItem }) => {
   );
 };
 
-const PackagingList = ({ items }) => {
+const PackagingList = ({ items, onDeleteItem }) => {
   return (
     <div className="list">
       <ul>
         {items.map((item) => (
-          <Item item={item} key={item.id} />
+          <Item item={item} onDeleteItem={onDeleteItem} key={item.id} />
         ))}
       </ul>
     </div>
   );
 };
 
-const Item = ({ item }) => {
+const Item = ({ item, onDeleteItem }) => {
   return (
     <li key={item.id}>
       <span> {item.quantity} {item.description}</span>
-      <button>❌</button>
+      <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
   );
 }
